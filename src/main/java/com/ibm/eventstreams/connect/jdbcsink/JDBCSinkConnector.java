@@ -22,18 +22,14 @@ import org.apache.kafka.common.config.Config;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.sink.SinkConnector;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 public class JDBCSinkConnector extends SinkConnector {
-    private static final Logger log = LoggerFactory.getLogger(JDBCSinkConnector.class);
-
     // TODO: check with ibm-messaging about externalizing snapshot version
-    public static String VERSION = "0.0.1-SNAPSHOT";
+    public static String version = "0.0.1-SNAPSHOT";
 
     private Map<String, String> props;
 
@@ -43,7 +39,7 @@ public class JDBCSinkConnector extends SinkConnector {
      * @return the version, formatted as a String
      */
     @Override public String version() {
-        return VERSION;
+        return version;
     }
 
     /**
@@ -52,7 +48,7 @@ public class JDBCSinkConnector extends SinkConnector {
      *
      * @param props configuration settings
      */
-    @Override public void start(Map<String, String> props) {
+    @Override public void start(final Map<String, String> props) {
         this.props = props;
     }
 
@@ -70,7 +66,7 @@ public class JDBCSinkConnector extends SinkConnector {
      * @param maxTasks maximum number of configurations to generate
      * @return configurations for Tasks
      */
-    @Override public List<Map<String, String>> taskConfigs(int maxTasks) {
+    @Override public List<Map<String, String>> taskConfigs(final int maxTasks) {
         return Collections.nCopies(maxTasks, props);
     }
 
@@ -96,7 +92,7 @@ public class JDBCSinkConnector extends SinkConnector {
      * @param connectorConfigs connector configuration values
      * @return list of allowed configurations
      */
-    @Override public Config validate(Map<String, String> connectorConfigs) {
+    @Override public Config validate(final Map<String, String> connectorConfigs) {
         return super.validate(connectorConfigs);
     }
 

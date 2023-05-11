@@ -27,9 +27,9 @@ public class RelationalDatabase implements IDatabase {
     private final IDatabaseWriter writer;
     private final DatabaseType type;
 
-    public RelationalDatabase(DatabaseType type, IDataSource dataSource) {
+    public RelationalDatabase(final DatabaseType type, final IDataSource dataSource) {
         this.type = type;
-        this.writer = new JDBCWriter(dataSource);;
+        this.writer = new JDBCWriter(dataSource);
     }
 
     @Override public IDatabaseWriter getWriter() {

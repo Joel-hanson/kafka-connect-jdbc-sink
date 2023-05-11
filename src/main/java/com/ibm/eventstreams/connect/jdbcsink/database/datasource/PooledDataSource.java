@@ -31,12 +31,12 @@ public class PooledDataSource implements IDataSource {
     private ComboPooledDataSource dataSource;
 
     private PooledDataSource(
-            ComboPooledDataSource dataSource
-    )  {
+            final ComboPooledDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    @Override public Connection getConnection() throws SQLException {
+    @Override
+    public Connection getConnection() throws SQLException {
         return dataSource.getConnection();
     }
 
@@ -44,7 +44,8 @@ public class PooledDataSource implements IDataSource {
 
         private ComboPooledDataSource dataSource = new ComboPooledDataSource();
 
-        public Builder(final String username, final String password, final String jdbcUrl, final String driverClass) throws PropertyVetoException {
+        public Builder(final String username, final String password, final String jdbcUrl, final String driverClass)
+                throws PropertyVetoException {
             this.dataSource.setDriverClass(driverClass);
             this.dataSource.setJdbcUrl(jdbcUrl);
             this.dataSource.setUser(username);
@@ -56,7 +57,7 @@ public class PooledDataSource implements IDataSource {
         }
 
         // Optional configurable methods...
-        public Builder withInitialPoolSize(int poolSize) {
+        public Builder withInitialPoolSize(final int poolSize) {
             this.dataSource.setInitialPoolSize(poolSize);
             return this;
         }

@@ -19,7 +19,6 @@
 package com.ibm.eventstreams.connect.jdbcsink.database;
 
 import com.ibm.eventstreams.connect.jdbcsink.JDBCSinkConfig;
-import com.ibm.eventstreams.connect.jdbcsink.JDBCSinkTask;
 import com.ibm.eventstreams.connect.jdbcsink.database.datasource.IDataSource;
 import com.ibm.eventstreams.connect.jdbcsink.database.datasource.PooledDataSource;
 import com.ibm.eventstreams.connect.jdbcsink.database.exception.DatabaseNotSupportedException;
@@ -30,25 +29,25 @@ import org.slf4j.LoggerFactory;
 import java.beans.PropertyVetoException;
 
 public class DatabaseFactory {
-    private static final Logger logger = LoggerFactory.getLogger(DatabaseFactory.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseFactory.class);
 
-    public IDatabase makeDatabase(JDBCSinkConfig config) {
+    public IDatabase makeDatabase(final JDBCSinkConfig config) {
 
-        logger.warn("DatabaseFactory: makeDatabase");
+        LOGGER.warn("DatabaseFactory: makeDatabase");
 
-        String jdbcUrl = config.getString(JDBCSinkConfig.CONFIG_NAME_CONNECTION_URL);
+        final String jdbcUrl = config.getString(JDBCSinkConfig.CONFIG_NAME_CONNECTION_URL);
 
-        DatabaseType databaseType = DatabaseType.fromJdbcUrl(jdbcUrl);
+        final DatabaseType databaseType = DatabaseType.fromJdbcUrl(jdbcUrl);
 
         if (databaseType == null) {
             throw new DatabaseNotSupportedException("Check " + jdbcUrl);
         }
 
-        String databaseDriver = databaseType.getDriver();
+        final String databaseDriver = databaseType.getDriver();
         try {
             Class.forName(databaseDriver);
-        } catch (ClassNotFoundException cnf) {
-            logger.error(databaseType.name() + " JDBC driver not found", cnf);
+        } catch (final ClassNotFoundException cnf) {
+            LOGGER.error(databaseType.name() + " JDBC driver not found", cnf);
             throw new JdbcDriverClassNotFoundException(databaseType.name());
         }
 
@@ -62,10 +61,9 @@ public class DatabaseFactory {
                     username,
                     password,
                     jdbcUrl,
-                    databaseDriver
-            ).withInitialPoolSize(poolSize).build();
-        } catch (PropertyVetoException e) {
-            logger.error(e.toString());
+                    databaseDriver).withInitialPoolSize(poolSize).build();
+        } catch (final PropertyVetoException e) {
+            LOGGER.error(e.toString());
         }
 
         return databaseType.create(dataSource);
